@@ -5,4 +5,4 @@ routes.get('/', (_, res) => {
   return res.send('NOTES API');
 });
 
-module.exports = routes;
+export default routes;
