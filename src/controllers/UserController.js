@@ -4,6 +4,7 @@ import Users from '../models/Users';
 const UserController = {
   store: {
     validations: [
+      check('name').notEmpty().withMessage('Nome é obrigatório.'),
       check('email')
         .isEmail()
         .withMessage('E-mail não é válido.')
@@ -18,6 +19,7 @@ const UserController = {
           });
         })
         .withMessage('E-mail já em uso!'),
+      check('password').notEmpty().withMessage('Senha é obrigatória.'),
     ],
 
     handler: async (req, res) => {
