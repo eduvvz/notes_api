@@ -1,19 +1,24 @@
 'use strict';
-import { Model } from 'sequelize';
-export default (sequelize, DataTypes) => {
-  class Users extends Model {
-    static associate() {}
+import { Model, DataTypes } from 'sequelize';
+import { v4 as uuidv4 } from 'uuid';
+
+class Users extends Model {
+  static init(sequelize) {
+    super.init(
+      {
+        name: DataTypes.STRING,
+        email: DataTypes.STRING,
+        password: DataTypes.TEXT,
+      },
+      {
+        sequelize,
+      }
+    );
+
+    this.beforeSave((user) => {
+      return (user.id = uuidv4());
+    });
   }
-  Users.init(
-    {
-      name: DataTypes.STRING,
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
-    },
-    {
-      sequelize,
-      modelName: 'Users',
-    }
-  );
-  return Users;
-};
+}
+
+export default Users;
