@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import UserController from './controllers/UserController';
+import { handleValidationErrors } from './utils/handleErrors';
 const routes = Router();
 
 routes.get('/', (_, res) => {
@@ -7,6 +8,11 @@ routes.get('/', (_, res) => {
 });
 
 // Users
-routes.post('/users', UserController.store);
+routes.post(
+  '/users',
+  UserController.store.validations,
+  handleValidationErrors,
+  UserController.store.handler
+);
 
 export default routes;
