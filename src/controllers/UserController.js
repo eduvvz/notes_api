@@ -1,10 +1,15 @@
-import { validatorUser } from '../utils/validatorControllers';
+import UserValidator from './validators/UserValidators';
 import UserRepository from '../repository/UserRepository';
 
 const UserController = {
   store: {
-    validations: validatorUser.store,
+    validations: UserValidator.store,
     handler: UserRepository.store,
+  },
+
+  checkEmailExists: {
+    validations: UserValidator.checkEmailExists,
+    hendler: UserRepository.checkEmailExists,
   },
 };
 

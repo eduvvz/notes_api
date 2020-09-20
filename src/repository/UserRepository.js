@@ -12,6 +12,7 @@ class UserRepository {
     } catch (error) {
       return res.status(500).json({
         msg: 'Algo de errado aconteceu na criação do usuário.',
+        error,
       });
     }
   }
@@ -22,6 +23,27 @@ class UserRepository {
     });
     callback(user);
     return user;
+  }
+
+  async checkEmailExists(req, res) {
+    const { email } = req.query;
+
+    try {
+      const user = await Users.findOne({
+        where: { email },
+      });
+
+      res.status(200).json({
+        data: { exist: Boolean(user) },
+        msg: user ? 'E-mail existe!' : 'E-mail não existe',
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        msg: 'Algo de errado aconteceu.',
+        error,
+      });
+    }
   }
 }
 

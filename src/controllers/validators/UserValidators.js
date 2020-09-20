@@ -1,7 +1,7 @@
 import { check } from 'express-validator';
-import UserRepository from '../repository/UserRepository';
+import UserRepository from '../../repository/UserRepository';
 
-export const validatorUser = {
+export default {
   store: [
     check('name').notEmpty().withMessage('Nome é obrigatório.'),
     check('email')
@@ -19,5 +19,8 @@ export const validatorUser = {
       })
       .withMessage('E-mail já em uso!'),
     check('password').notEmpty().withMessage('Senha é obrigatória.'),
+  ],
+  checkEmailExists: [
+    check('email').notEmpty().withMessage('O parâmetro e-mail é obrigatório.'),
   ],
 };

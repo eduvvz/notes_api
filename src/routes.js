@@ -8,11 +8,20 @@ routes.get('/', (_, res) => {
 });
 
 // Users
+const preffixUser = '/users';
+
 routes.post(
-  '/users',
+  preffixUser,
   UserController.store.validations,
   handleValidationErrors,
   UserController.store.handler
+);
+
+routes.get(
+  `${preffixUser}/checkEmailExists`,
+  UserController.checkEmailExists.validations,
+  handleValidationErrors,
+  UserController.checkEmailExists.hendler
 );
 
 export default routes;
