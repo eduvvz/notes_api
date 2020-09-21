@@ -1,21 +1,16 @@
 import Users from '../models/Users';
-import { toHash } from '../utils/handleBcript';
-import { handleDefaultError } from '../utils/handleErrors';
 
 class UserRepository {
   async store(req, res) {
     const { name, email, password } = req.body;
 
     try {
-      const hashPassword = await toHash(password);
-      console.log(hashPassword);
-      const user = await Users.create({ name, email, password: hashPassword });
+      const user = await Users.create({ name, email, password });
       return res.status(201).json({
         data: user,
         msg: 'Usuário criado!',
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
         msg: 'Algo de errado aconteceu na criação do usuário.',
         error,
@@ -40,7 +35,10 @@ class UserRepository {
         msg: user ? 'E-mail existe!' : 'E-mail não existe',
       });
     } catch (error) {
-      handleDefaultError(error, res);
+      return res.status(500).json({
+        msg: 'Algo de errado aconteceu.',
+        error,
+      });
     }
   }
 
@@ -50,7 +48,10 @@ class UserRepository {
     try {
       const user = await _getByEmail(email);
     } catch (error) {
-      return handleDefaultError(error, res);
+      return res.status(500).json({
+        msg: 'Algo de errado aconteceu.',
+        error,
+      });
     }
   }
 }
