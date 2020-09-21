@@ -1,17 +1,13 @@
 import bcrypt from 'bcrypt';
 
-export const toHash = (toHash) => {
+export const compareHash = (stringToCompare, hash) => {
   return new Promise((resolve, reject) => {
-    bcrypt.genSalt(parseInt(process.env.SALT_ROUNDS), (err, salt) => {
+    bcrypt.compare(stringToCompare, hash, function (err, isMatch) {
       if (err) {
         reject(err);
       }
-      bcrypt.hash(toHash, salt, (err, passwordHash) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(passwordHash);
-      });
+
+      resolve({ isMatch });
     });
   });
 };

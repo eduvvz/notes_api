@@ -1,4 +1,5 @@
 import Users from '../models/Users';
+import { compareHash } from '../utils/handleBcript';
 
 class UserRepository {
   async store(req, res) {
@@ -47,6 +48,14 @@ class UserRepository {
 
     try {
       const user = await _getByEmail(email);
+      const { isMatch } = await compareHash(password, user.password);
+
+      return res.status(isMatch ? 200 : 422).json({
+        [isMatch ? 'data' : 'errors']: isMatch
+          ? { user }
+          : [{ param: 'password', msg: 'A senha não está certa.' }],
+        msg: isMatch ? 'O login foi feito!' : 'O login não foi feito.',
+      });
     } catch (error) {
       return res.status(500).json({
         msg: 'Algo de errado aconteceu.',
