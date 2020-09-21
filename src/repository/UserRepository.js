@@ -1,4 +1,5 @@
 import Users from '../models/Users';
+import jwt from 'jsonwebtoken';
 import { compareHash } from '../utils/handleBcript';
 
 class UserRepository {
@@ -45,14 +46,21 @@ class UserRepository {
 
   async login(req, res) {
     const { email, password } = req.body;
+    let token = '';
 
     try {
       const user = await _getByEmail(email);
       const { isMatch } = await compareHash(password, user.password);
 
+      if (isMatch) {
+        token = jwt.sign({ id: user.id }, process.env.SECRET, {
+          expiresIn: '5d',
+        });
+      }
+
       return res.status(isMatch ? 200 : 422).json({
         [isMatch ? 'data' : 'errors']: isMatch
-          ? { user }
+          ? { user, token }
           : [{ param: 'password', msg: 'A senha não está certa.' }],
         msg: isMatch ? 'O login foi feito!' : 'O login não foi feito.',
       });
