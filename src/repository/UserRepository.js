@@ -46,21 +46,26 @@ class UserRepository {
 
   async login(req, res) {
     const { email, password } = req.body;
-    let token = '';
+    let userToResponse = {};
 
     try {
       const user = await _getByEmail(email);
       const { isMatch } = await compareHash(password, user.password);
 
       if (isMatch) {
-        token = jwt.sign({ id: user.id }, process.env.SECRET, {
-          expiresIn: '5d',
-        });
+        userToResponse = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          token: jwt.sign({ id: user.id }, process.env.SECRET, {
+            expiresIn: '5d',
+          }),
+        };
       }
 
       return res.status(isMatch ? 200 : 422).json({
         [isMatch ? 'data' : 'errors']: isMatch
-          ? { user, token }
+          ? { user: userToResponse }
           : [{ param: 'password', msg: 'A senha não está certa.' }],
         msg: isMatch ? 'O login foi feito!' : 'O login não foi feito.',
       });
