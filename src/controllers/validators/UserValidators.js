@@ -28,4 +28,8 @@ export default {
   checkEmailExists: [
     check('email').notEmpty().withMessage('O parâmetro e-mail é obrigatório.'),
   ],
+  login: [
+    check('email').notEmpty().withMessage('E-mail é obrigatório.'),
+    check('password').notEmpty().withMessage('Senha é obrigatória.'),
+  ],
 };

@@ -8,3 +8,11 @@ export const handleValidationErrors = (req, res, next) => {
 
   next();
 };
+
+export const handleDefaultError = (error, res) => {
+  console.log(error);
+  return res.status(500).json({
+    msg: 'Algo de errado aconteceu na criação do usuário.',
+    error,
+  });
+};

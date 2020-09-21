@@ -11,6 +11,11 @@ const UserController = {
     validations: UserValidator.checkEmailExists,
     hendler: UserRepository.checkEmailExists,
   },
+
+  login: {
+    validations: UserValidator.login,
+    handler: UserRepository.login,
+  },
 };
 
 export default UserController;

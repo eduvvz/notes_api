@@ -8,20 +8,27 @@ routes.get('/', (_, res) => {
 });
 
 // Users
-const preffixUser = '/users';
+const prefixUser = '/users';
 
 routes.post(
-  preffixUser,
+  prefixUser,
   UserController.store.validations,
   handleValidationErrors,
   UserController.store.handler
 );
 
 routes.get(
-  `${preffixUser}/checkEmailExists`,
+  `${prefixUser}/checkEmailExists`,
   UserController.checkEmailExists.validations,
   handleValidationErrors,
   UserController.checkEmailExists.hendler
+);
+
+routes.post(
+  `${prefixUser}/login`,
+  UserController.login.validations,
+  handleValidationErrors,
+  UserController.login.handler
 );
 
 export default routes;
