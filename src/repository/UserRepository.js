@@ -1,6 +1,7 @@
 import Users from '../models/Users';
 import jwt from 'jsonwebtoken';
 import { compareHash } from '../utils/handleBcript';
+import { handleDefaultError } from '../utils/handleErrors';
 
 class UserRepository {
   async store(req, res) {
@@ -13,10 +14,7 @@ class UserRepository {
         msg: 'Usuário criado!',
       });
     } catch (error) {
-      return res.status(500).json({
-        msg: 'Algo de errado aconteceu na criação do usuário.',
-        error,
-      });
+      return handleDefaultError(error, res);
     }
   }
 
@@ -37,11 +35,15 @@ class UserRepository {
         msg: user ? 'E-mail existe!' : 'E-mail não existe',
       });
     } catch (error) {
-      return res.status(500).json({
-        msg: 'Algo de errado aconteceu.',
-        error,
-      });
+      return handleDefaultError(error, res);
     }
+  }
+
+  async getById(id, callback) {
+    const user = await Users.findByPk(id);
+    callback(user);
+
+    return user;
   }
 
   async login(req, res) {
@@ -70,10 +72,7 @@ class UserRepository {
         msg: isMatch ? 'O login foi feito!' : 'O login não foi feito.',
       });
     } catch (error) {
-      return res.status(500).json({
-        msg: 'Algo de errado aconteceu.',
-        error,
-      });
+      return handleDefaultError(error, res);
     }
   }
 }

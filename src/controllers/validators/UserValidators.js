@@ -1,7 +1,7 @@
 import { check } from 'express-validator';
 import UserRepository from '../../repository/UserRepository';
 
-const checkEmailExist = async (email) => {
+const _checkEmailExist = async (email) => {
   return new Promise((resolve, reject) => {
     UserRepository.getByEmail(email, (user) => {
       if (user) {
@@ -12,7 +12,7 @@ const checkEmailExist = async (email) => {
   });
 };
 
-const checkEmailNotExist = async (email) => {
+const _checkEmailNotExist = async (email) => {
   return new Promise((resolve, reject) => {
     UserRepository.getByEmail(email, (user) => {
       if (user) {
@@ -27,7 +27,7 @@ export default {
   store: [
     check('name').notEmpty().withMessage('Nome é obrigatório.'),
     check('email').normalizeEmail().isEmail().withMessage('E-mail inválido!'),
-    check('email').custom(checkEmailExist).withMessage('E-mail já em uso!'),
+    check('email').custom(_checkEmailExist).withMessage('E-mail já em uso!'),
     check('password').notEmpty().withMessage('Senha é obrigatória.'),
     check('confirmPassword')
       .custom((confirmPassword, { req }) => {
@@ -42,6 +42,8 @@ export default {
   login: [
     check('email').notEmpty().withMessage('E-mail é obrigatório.'),
     check('password').notEmpty().withMessage('Senha é obrigatória.'),
-    check('email').custom(checkEmailNotExist).withMessage('E-mail não existe!'),
+    check('email')
+      .custom(_checkEmailNotExist)
+      .withMessage('E-mail não existe!'),
   ],
 };

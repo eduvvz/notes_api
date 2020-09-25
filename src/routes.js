@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import NoteController from './controllers/NoteController';
 import UserController from './controllers/UserController';
 import { handleValidationErrors } from './utils/handleErrors';
 const routes = Router();
@@ -29,6 +30,16 @@ routes.post(
   UserController.login.validations,
   handleValidationErrors,
   UserController.login.handler
+);
+
+// Notes
+const prefixNote = '/notes';
+
+routes.post(
+  prefixNote,
+  NoteController.store.validations,
+  handleValidationErrors,
+  NoteController.store.handler
 );
 
 export default routes;
