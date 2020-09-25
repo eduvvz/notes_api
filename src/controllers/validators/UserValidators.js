@@ -15,6 +15,7 @@ const _checkEmailExist = async (email) => {
 const _checkEmailNotExist = async (email) => {
   return new Promise((resolve, reject) => {
     UserRepository.getByEmail(email, (user) => {
+      console.log(user);
       if (user) {
         return resolve();
       }

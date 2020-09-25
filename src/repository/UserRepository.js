@@ -1,26 +1,23 @@
 import Users from '../models/Users';
-import jwt from 'jsonwebtoken';
-import { compareHash } from '../utils/handleBcript';
 import { handleDefaultError } from '../utils/handleErrors';
 
 class UserRepository {
-  async store(req, res) {
-    const { name, email, password } = req.body;
-
+  async store(user, callback = () => null) {
     try {
-      const user = await Users.create({ name, email, password });
-      return res.status(201).json({
-        data: user,
-        msg: 'Usuário criado!',
-      });
+      const newUser = await Users.create(user);
+      callback();
+      return newUser;
     } catch (error) {
-      return handleDefaultError(error, res);
+      return error;
     }
   }
 
-  async getByEmail(email, callback) {
-    const user = await _getByEmail(email);
+  async getByEmail(email, callback = () => null) {
+    const user = await Users.findOne({
+      where: { email },
+    });
     callback(user);
+
     return user;
   }
 
@@ -44,36 +41,6 @@ class UserRepository {
     callback(user);
 
     return user;
-  }
-
-  async login(req, res) {
-    const { email, password } = req.body;
-    let userToResponse = {};
-
-    try {
-      const user = await _getByEmail(email);
-      const { isMatch } = await compareHash(password, user.password);
-
-      if (isMatch) {
-        userToResponse = {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          token: jwt.sign({ id: user.id }, process.env.SECRET, {
-            expiresIn: '5d',
-          }),
-        };
-      }
-
-      return res.status(isMatch ? 200 : 422).json({
-        [isMatch ? 'data' : 'errors']: isMatch
-          ? { user: userToResponse }
-          : [{ param: 'password', msg: 'A senha não está certa.' }],
-        msg: isMatch ? 'O login foi feito!' : 'O login não foi feito.',
-      });
-    } catch (error) {
-      return handleDefaultError(error, res);
-    }
   }
 }
 

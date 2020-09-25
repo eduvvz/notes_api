@@ -22,7 +22,7 @@ routes.get(
   `${prefixUser}/checkEmailExists`,
   UserController.checkEmailExists.validations,
   handleValidationErrors,
-  UserController.checkEmailExists.hendler
+  UserController.checkEmailExists.handler
 );
 
 routes.post(
