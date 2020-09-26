@@ -9,6 +9,17 @@ class NoteRepository {
       return error;
     }
   }
+
+  async getByUser(userId) {
+    try {
+      const notes = await Note.findAll({
+        where: { userId },
+      });
+      return notes;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default new NoteRepository();

@@ -24,6 +24,23 @@ const NoteController = {
       }
     },
   },
+
+  getByUser: {
+    validations: NoteValidations.getByUser,
+    handler: async (req, res) => {
+      const { userId } = req.query;
+
+      try {
+        const notes = await NoteRepository.getByUser(userId);
+        return res.status(200).json({
+          data: notes,
+          msg: 'Notas encontradas.',
+        });
+      } catch (error) {
+        return handleDefaultError(error, res);
+      }
+    },
+  },
 };
 
 export default NoteController;

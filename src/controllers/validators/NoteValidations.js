@@ -18,4 +18,7 @@ export default {
     check('userId').notEmpty().withMessage('Precisa assosciar um usuário.'),
     check('userId').custom(_checkUserExist).withMessage('Usuário não existe!'),
   ],
+  getByUser: [
+    check('userId').notEmpty().withMessage('O parâmetro userId é obrigatório.'),
+  ],
 };

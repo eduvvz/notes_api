@@ -42,4 +42,11 @@ routes.post(
   NoteController.store.handler
 );
 
+routes.get(
+  `${prefixNote}/byUser`,
+  NoteController.getByUser.validations,
+  handleValidationErrors,
+  NoteController.getByUser.handler
+);
+
 export default routes;
