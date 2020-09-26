@@ -12,9 +12,11 @@ class NoteRepository {
 
   async getByUser(userId) {
     try {
-      const notes = await Note.findAll({
+      const notes = await Note.findAndCountAll({
         where: { userId },
+        order: [['updatedAt', 'DESC']],
       });
+      console.log(notes);
       return notes;
     } catch (error) {
       return error;

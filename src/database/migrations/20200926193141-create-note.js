@@ -5,12 +5,23 @@ module.exports = {
       id: {
         primaryKey: true,
         type: Sequelize.UUID,
+        allowNull: false,
       },
       userId: {
         type: Sequelize.DataTypes.UUID,
         allowNull: false,
         references: {
           model: 'users',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
+      folderId: {
+        type: Sequelize.DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'folders',
           key: 'id',
         },
         onUpdate: 'CASCADE',

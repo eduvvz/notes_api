@@ -1,4 +1,5 @@
 import express from 'express';
+import paginate from 'express-paginate';
 import routes from './routes';
 import cors from 'cors';
 
@@ -14,6 +15,7 @@ class App {
   }
 
   middlewares() {
+    this.server.use(paginate.middleware(10, 50));
     this.server.use(cors());
     this.server.use(express.json());
   }

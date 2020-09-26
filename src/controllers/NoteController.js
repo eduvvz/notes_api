@@ -28,10 +28,10 @@ const NoteController = {
   getByUser: {
     validations: NoteValidations.getByUser,
     handler: async (req, res) => {
-      const { userId } = req.query;
+      const { userId, offset, limit } = req.query;
 
       try {
-        const notes = await NoteRepository.getByUser(userId);
+        const notes = await NoteRepository.getByUser(userId, limit, offset);
         return res.status(200).json({
           data: notes,
           msg: 'Notas encontradas.',
