@@ -19,7 +19,7 @@ module.exports = {
       },
       folderId: {
         type: Sequelize.DataTypes.UUID,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'folders',
           key: 'id',

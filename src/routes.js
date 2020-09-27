@@ -60,4 +60,11 @@ routes.post(
   FolderController.store.handler
 );
 
+routes.get(
+  `${prefixFolder}/byUser`,
+  FolderController.getByUser.validations,
+  handleValidationErrors,
+  FolderController.getByUser.handler
+);
+
 export default routes;

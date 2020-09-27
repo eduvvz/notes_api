@@ -23,6 +23,23 @@ const NoteController = {
       }
     },
   },
+
+  getByUser: {
+    validations: FolderValidations.getByUser,
+    handler: async (req, res) => {
+      const { userId, offset, limit } = req.query;
+
+      try {
+        const notes = await FolderRepository.getByUser(userId, limit, offset);
+        return res.status(200).json({
+          data: notes,
+          msg: 'Pastas encontradas.',
+        });
+      } catch (error) {
+        return handleDefaultError(error, res);
+      }
+    },
+  },
 };
 
 export default NoteController;

@@ -9,6 +9,19 @@ class FolderRepository {
       return error;
     }
   }
+
+  async getByUser(userId) {
+    try {
+      const notes = await Folder.findAndCountAll({
+        where: { userId },
+        order: [['updatedAt', 'DESC']],
+      });
+
+      return notes;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default new FolderRepository();

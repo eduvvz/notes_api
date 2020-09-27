@@ -16,7 +16,7 @@ class NoteRepository {
         where: { userId },
         order: [['updatedAt', 'DESC']],
       });
-      console.log(notes);
+
       return notes;
     } catch (error) {
       return error;
