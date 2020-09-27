@@ -41,6 +41,23 @@ const NoteController = {
       }
     },
   },
+
+  getByUserAndWithoutFolder: {
+    validations: NoteValidations.getByUserAndWithoutFolder,
+    handler: async (req, res) => {
+      const { userId, offset, limit } = req.query;
+
+      const notes = await NoteRepository.getByUserAndWithoutFolder(
+        userId,
+        limit,
+        offset
+      );
+      return res.status(200).json({
+        data: notes,
+        msg: 'Notas encontradas!',
+      });
+    },
+  },
 };
 
 export default NoteController;

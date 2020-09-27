@@ -15,6 +15,7 @@ const _checkUserExist = async (id) => {
 
 export default {
   store: [
+    check('name').notEmpty().withMessage('Nome é obrigatório.'),
     check('userId').notEmpty().withMessage('Precisa assosciar um usuário.'),
     check('userId').custom(_checkUserExist).withMessage('Usuário não existe!'),
   ],

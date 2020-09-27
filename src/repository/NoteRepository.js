@@ -22,6 +22,19 @@ class NoteRepository {
       return error;
     }
   }
+
+  async getByUserAndWithoutFolder(userId) {
+    try {
+      const notes = await Note.findAndCountAll({
+        where: { userId, folderId: null },
+        order: [['updatedAt', 'DESC']],
+      });
+
+      return notes;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default new NoteRepository();

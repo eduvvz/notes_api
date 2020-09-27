@@ -22,4 +22,8 @@ export default {
     check('userId').notEmpty().withMessage('O parâmetro userId é obrigatório.'),
     check('userId').custom(_checkUserExist).withMessage('Usuário não existe!'),
   ],
+  getByUserAndWithoutFolder: [
+    check('userId').notEmpty().withMessage('O parâmetro userId é obrigatório.'),
+    check('userId').custom(_checkUserExist).withMessage('Usuário não existe!'),
+  ],
 };

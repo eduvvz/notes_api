@@ -50,6 +50,13 @@ routes.get(
   NoteController.getByUser.handler
 );
 
+routes.get(
+  `${prefixNote}/getByUserAndWithoutFolder`,
+  NoteController.getByUserAndWithoutFolder.validations,
+  handleValidationErrors,
+  NoteController.getByUserAndWithoutFolder.handler
+);
+
 // Folder
 const prefixFolder = '/folders';
 
