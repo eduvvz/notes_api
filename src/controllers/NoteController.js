@@ -72,6 +72,20 @@ const NoteController = {
       });
     },
   },
+
+  getNotesInFolder: {
+    validations: NoteValidations.getNotesInFolder,
+    handler: async (req, res) => {
+      const { folderId } = req.query;
+
+      const notes = await NoteRepository.getNotesInFolder(folderId);
+
+      return res.status(200).json({
+        data: notes,
+        msg: 'Notas encontradas!',
+      });
+    },
+  },
 };
 
 export default NoteController;

@@ -58,6 +58,16 @@ class NoteRepository {
       return error;
     }
   }
+
+  async getNotesInFolder(folderId) {
+    try {
+      const notes = await Note.findAll({ where: { folderId } });
+
+      return notes;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default new NoteRepository();

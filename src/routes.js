@@ -64,6 +64,13 @@ routes.put(
   NoteController.putNoteInFolder.handler
 );
 
+routes.get(
+  `${prefixNote}/getInFolder`,
+  NoteController.getNotesInFolder.validations,
+  handleValidationErrors,
+  NoteController.getNotesInFolder.handler
+);
+
 // Folder
 const prefixFolder = '/folders';
 

@@ -59,4 +59,12 @@ export default {
       .custom(_checkFolderExist)
       .withMessage('A pasta não existe!'),
   ],
+  getNotesInFolder: [
+    check('folderId')
+      .notEmpty()
+      .withMessage('O parâmetro folderId é obrigatório.'),
+    check('folderId')
+      .custom(_checkFolderExist)
+      .withMessage('A pasta não existe!'),
+  ],
 };
