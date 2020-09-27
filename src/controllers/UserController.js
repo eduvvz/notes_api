@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import UserValidator from './validators/UserValidators';
+import UserValidator from './validators/UserValidations';
 import UserRepository from '../repository/UserRepository';
 import { handleDefaultError } from '../utils/handleErrors';
 import { compareHash } from '../utils/handleBcript';

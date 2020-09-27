@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import NoteController from './controllers/NoteController';
 import UserController from './controllers/UserController';
+import FolderController from './controllers/FolderController';
 import { handleValidationErrors } from './utils/handleErrors';
 const routes = Router();
 
@@ -47,6 +48,16 @@ routes.get(
   NoteController.getByUser.validations,
   handleValidationErrors,
   NoteController.getByUser.handler
+);
+
+// Folder
+const prefixFolder = '/folders';
+
+routes.post(
+  prefixFolder,
+  FolderController.store.validations,
+  handleValidationErrors,
+  FolderController.store.handler
 );
 
 export default routes;

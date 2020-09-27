@@ -10,6 +10,7 @@ User.init(sequelize);
 Note.init(sequelize);
 Folder.init(sequelize);
 
+Folder.associate(sequelize.models);
 Note.associate(sequelize.models);
 
 export default sequelize;

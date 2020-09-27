@@ -6,6 +6,7 @@ class Folder extends Model {
     super.init(
       {
         name: DataTypes.STRING,
+        userId: DataTypes.UUID,
       },
       {
         sequelize,
