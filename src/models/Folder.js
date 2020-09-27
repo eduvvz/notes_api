@@ -20,7 +20,8 @@ class Folder extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Folder, { foreignKey: 'userId', as: 'user' });
+    this.belongsTo(models.Users, { foreignKey: 'userId', as: 'user' });
+    this.hasMany(models.Note, { foreignKey: 'folderId', as: 'notes' });
   }
 }
 

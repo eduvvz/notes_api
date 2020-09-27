@@ -58,6 +58,20 @@ const NoteController = {
       });
     },
   },
+
+  putNoteInFolder: {
+    validations: NoteValidations.putNoteInFolder,
+    handler: async (req, res) => {
+      const { noteId, folderId } = req.body;
+
+      const note = await NoteRepository.putNoteInFolder(noteId, folderId);
+
+      return res.status(200).json({
+        data: note,
+        msg: 'Nota colocada numa pasta!',
+      });
+    },
+  },
 };
 
 export default NoteController;

@@ -10,6 +10,16 @@ class NoteRepository {
     }
   }
 
+  async getById(id, callback = () => null) {
+    try {
+      const note = await Note.findByPk(id);
+      callback(note);
+      return note;
+    } catch (error) {
+      return error;
+    }
+  }
+
   async getByUser(userId) {
     try {
       const notes = await Note.findAndCountAll({
@@ -31,6 +41,19 @@ class NoteRepository {
       });
 
       return notes;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async putNoteInFolder(noteId, folderId) {
+    try {
+      const note = await Note.findByPk(noteId);
+
+      note.folderId = folderId;
+      await note.save();
+
+      return note;
     } catch (error) {
       return error;
     }

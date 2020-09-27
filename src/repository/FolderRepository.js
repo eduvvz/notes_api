@@ -10,14 +10,24 @@ class FolderRepository {
     }
   }
 
+  async getById(id, callback) {
+    try {
+      const folder = await Folder.findByPk(id);
+      callback(folder);
+      return folder;
+    } catch (error) {
+      return error;
+    }
+  }
+
   async getByUser(userId) {
     try {
-      const notes = await Folder.findAndCountAll({
+      const folders = await Folder.findAndCountAll({
         where: { userId },
         order: [['updatedAt', 'DESC']],
       });
 
-      return notes;
+      return folders;
     } catch (error) {
       return error;
     }
