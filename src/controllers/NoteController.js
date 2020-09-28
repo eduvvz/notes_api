@@ -52,6 +52,7 @@ const NoteController = {
         limit,
         offset
       );
+
       return res.status(200).json({
         data: notes,
         msg: 'Notas encontradas!',
@@ -97,6 +98,20 @@ const NoteController = {
       return res.status(200).json({
         data: note,
         msg: 'Nota deletada.',
+      });
+    },
+  },
+
+  getDeleted: {
+    validations: NoteValidations.getDeleted,
+    handler: async (req, res) => {
+      const { userId } = req.query;
+
+      const notes = await NoteRepository.getDeletedByUser(userId);
+
+      return res.status(200).json({
+        data: notes,
+        msg: 'Notas encontradas!',
       });
     },
   },

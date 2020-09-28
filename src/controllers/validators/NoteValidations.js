@@ -71,4 +71,8 @@ export default {
     check('noteId').notEmpty().withMessage('O parâmetro noteId é obrigatório.'),
     check('noteId').custom(_checkNoteExist).withMessage('A nota não existe!'),
   ],
+  getDeleted: [
+    check('userId').notEmpty().withMessage('Precisa assosciar um usuário.'),
+    check('userId').custom(_checkUserExist).withMessage('Usuário não existe!'),
+  ],
 };

@@ -1,4 +1,5 @@
 import Note from '../models/Note';
+import { Op } from 'sequelize';
 
 class NoteRepository {
   async store(note) {
@@ -91,6 +92,25 @@ class NoteRepository {
           await note.save();
 
           resolve(note);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  async getDeletedByUser(userId) {
+    return new Promise((resolve, reject) => {
+      Note.findAndCountAll({
+        where: {
+          userId,
+          deleteAt: {
+            [Op.ne]: null,
+          },
+        },
+      })
+        .then((notes) => {
+          resolve(notes);
         })
         .catch((error) => {
           reject(error);
