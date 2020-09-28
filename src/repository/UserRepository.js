@@ -1,30 +1,44 @@
 import Users from '../models/Users';
 
 class UserRepository {
-  async store(user, callback = () => null) {
-    try {
-      const newUser = await Users.create(user);
-      callback();
-      return newUser;
-    } catch (error) {
-      return error;
-    }
+  async store(user) {
+    return new Promise((resolve, reject) => {
+      Users.create(user)
+        .then((newUser) => {
+          resolve(newUser);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 
   async getByEmail(email, callback = () => null) {
-    const user = await Users.findOne({
-      where: { email },
+    return new Promise((resolve, reject) => {
+      Users.findOne({
+        where: { email },
+      })
+        .then((user) => {
+          callback(user);
+          resolve(user);
+        })
+        .catch((error) => {
+          reject(error);
+        });
     });
-    callback(user);
-
-    return user;
   }
 
   async getById(id, callback) {
-    const user = await Users.findByPk(id);
-    callback(user);
-
-    return user;
+    return new Promise((resolve, reject) => {
+      Users.findByPk(id)
+        .then((user) => {
+          callback(user);
+          resolve(user);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 }
 
