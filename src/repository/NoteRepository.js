@@ -2,84 +2,100 @@ import Note from '../models/Note';
 
 class NoteRepository {
   async store(note) {
-    try {
-      const newNote = await Note.create(note);
-      return newNote;
-    } catch (error) {
-      return error;
-    }
+    return new Promise((resolve, reject) => {
+      Note.create(note)
+        .then((newNote) => {
+          resolve(newNote);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 
   async getById(id, callback = () => null) {
-    try {
-      const note = await Note.findByPk(id);
-      callback(note);
-      return note;
-    } catch (error) {
-      return error;
-    }
+    return new Promise((resolve, reject) => {
+      Note.findByPk(id)
+        .then((note) => {
+          callback(note);
+          resolve(note);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 
   async getByUser(userId) {
-    try {
-      const notes = await Note.findAndCountAll({
+    return new Promise((resolve, reject) => {
+      Note.findAndCountAll({
         where: { userId },
         order: [['updatedAt', 'DESC']],
-      });
-
-      return notes;
-    } catch (error) {
-      return error;
-    }
+      })
+        .then((notes) => {
+          resolve(notes);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 
   async getByUserAndWithoutFolder(userId) {
-    try {
-      const notes = await Note.findAndCountAll({
+    return new Promise((resolve, reject) => {
+      Note.findAndCountAll({
         where: { userId, folderId: null, deleteAt: null },
         order: [['updatedAt', 'DESC']],
-      });
-
-      return notes;
-    } catch (error) {
-      return error;
-    }
+      })
+        .then((notes) => {
+          resolve(notes);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 
   async putNoteInFolder(noteId, folderId) {
-    try {
-      const note = await Note.findByPk(noteId);
-
-      note.folderId = folderId;
-      await note.save();
-
-      return note;
-    } catch (error) {
-      return error;
-    }
+    return new Promise((resolve, reject) => {
+      Note.findByPk(noteId)
+        .then(async (note) => {
+          note.folderId = folderId;
+          await note.save();
+          resolve(note);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 
   async getNotesInFolder(folderId) {
-    try {
-      const notes = await Note.findAll({ where: { folderId, deleteAt: null } });
-
-      return notes;
-    } catch (error) {
-      return error;
-    }
+    return new Promise((resolve, reject) => {
+      Note.findAll({ where: { folderId, deleteAt: null } })
+        .then((notes) => {
+          resolve(notes);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 
   async delete(noteId) {
-    try {
-      const note = await Note.findByPk(noteId);
+    return new Promise((resolve, reject) => {
+      Note.findByPk(noteId)
+        .then(async (note) => {
+          note.deleteAt = new Date();
 
-      note.deleteAt = new Date();
-      await note.save();
+          await note.save();
 
-      return note;
-    } catch (error) {
-      return error;
-    }
+          resolve(note);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 }
 
