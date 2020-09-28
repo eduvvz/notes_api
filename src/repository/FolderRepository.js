@@ -2,35 +2,43 @@ import Folder from '../models/Folder';
 
 class FolderRepository {
   async store(folder) {
-    try {
-      const newFolder = await Folder.create(folder);
-      return newFolder;
-    } catch (error) {
-      return error;
-    }
+    return new Promise((resolve, reject) => {
+      Folder.create(folder)
+        .then((folder) => {
+          resolve(folder);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 
   async getById(id, callback) {
-    try {
-      const folder = await Folder.findByPk(id);
-      callback(folder);
-      return folder;
-    } catch (error) {
-      return error;
-    }
+    return new Promise((resolve, reject) => {
+      Folder.findByPk(id)
+        .then((folder) => {
+          callback(callback);
+          resolve(folder);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 
   async getByUser(userId) {
-    try {
-      const folders = await Folder.findAndCountAll({
+    return new Promise((resolve, reject) => {
+      Folder.findAndCountAll({
         where: { userId },
         order: [['updatedAt', 'DESC']],
-      });
-
-      return folders;
-    } catch (error) {
-      return error;
-    }
+      })
+        .then((folders) => {
+          resolve(folders);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   }
 }
 
