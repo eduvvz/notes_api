@@ -67,4 +67,8 @@ export default {
       .custom(_checkFolderExist)
       .withMessage('A pasta não existe!'),
   ],
+  delete: [
+    check('noteId').notEmpty().withMessage('O parâmetro noteId é obrigatório.'),
+    check('noteId').custom(_checkNoteExist).withMessage('A nota não existe!'),
+  ],
 };

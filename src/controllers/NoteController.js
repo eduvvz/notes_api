@@ -86,6 +86,20 @@ const NoteController = {
       });
     },
   },
+
+  delete: {
+    validations: NoteValidations.delete,
+    handler: async (req, res) => {
+      const { noteId } = req.body;
+
+      const note = await NoteRepository.delete(noteId);
+
+      return res.status(200).json({
+        data: note,
+        msg: 'Nota deletada.',
+      });
+    },
+  },
 };
 
 export default NoteController;

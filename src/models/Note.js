@@ -10,6 +10,7 @@ class Note extends Model {
         folderId: DataTypes.UUID,
         content: DataTypes.TEXT,
         color: DataTypes.STRING,
+        deleteAt: DataTypes.DATE,
       },
       {
         sequelize,

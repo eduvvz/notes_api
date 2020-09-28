@@ -71,6 +71,13 @@ routes.get(
   NoteController.getNotesInFolder.handler
 );
 
+routes.delete(
+  prefixNote,
+  NoteController.delete.validations,
+  handleValidationErrors,
+  NoteController.delete.handler
+);
+
 // Folder
 const prefixFolder = '/folders';
 

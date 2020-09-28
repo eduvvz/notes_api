@@ -36,7 +36,7 @@ class NoteRepository {
   async getByUserAndWithoutFolder(userId) {
     try {
       const notes = await Note.findAndCountAll({
-        where: { userId, folderId: null },
+        where: { userId, folderId: null, deleteAt: null },
         order: [['updatedAt', 'DESC']],
       });
 
@@ -61,9 +61,22 @@ class NoteRepository {
 
   async getNotesInFolder(folderId) {
     try {
-      const notes = await Note.findAll({ where: { folderId } });
+      const notes = await Note.findAll({ where: { folderId, deleteAt: null } });
 
       return notes;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  async delete(noteId) {
+    try {
+      const note = await Note.findByPk(noteId);
+
+      note.deleteAt = new Date();
+      await note.save();
+
+      return note;
     } catch (error) {
       return error;
     }
