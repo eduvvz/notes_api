@@ -106,6 +106,24 @@ const NoteController = {
     },
   },
 
+  deletePermanently: {
+    validations: NoteValidations.delete,
+    handler: async (req, res) => {
+      const { noteId } = req.query;
+
+      try {
+        const note = await NoteRepository.deletePermanently(noteId);
+
+        return res.status(200).json({
+          data: note,
+          msg: 'Nota deletada permanentemente.',
+        });
+      } catch (error) {
+        return handleDefaultError(error, res);
+      }
+    },
+  },
+
   getDeleted: {
     validations: NoteValidations.getDeleted,
     handler: async (req, res) => {

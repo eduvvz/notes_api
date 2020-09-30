@@ -117,6 +117,20 @@ class NoteRepository {
         });
     });
   }
+
+  async deletePermanently(id) {
+    return new Promise((resolve, reject) => {
+      Note.destroy({
+        where: { id },
+      })
+        .then(() => {
+          resolve(id);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  }
 }
 
 export default new NoteRepository();

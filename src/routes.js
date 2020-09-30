@@ -78,6 +78,13 @@ routes.delete(
   NoteController.delete.handler
 );
 
+routes.delete(
+  `${prefixNote}/permanently`,
+  NoteController.deletePermanently.validations,
+  handleValidationErrors,
+  NoteController.deletePermanently.handler
+);
+
 routes.get(
   `${prefixNote}/getDeleted`,
   NoteController.getDeleted.validations,
