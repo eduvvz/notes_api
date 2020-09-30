@@ -86,10 +86,26 @@ class NoteRepository {
   async delete(noteId) {
     return new Promise((resolve, reject) => {
       Note.findByPk(noteId)
-        .then((note) => {
+        .then(async (note) => {
           note.deleteAt = new Date();
 
-          note.save();
+          await note.save();
+
+          resolve(note);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  }
+
+  async restoreNote(noteId) {
+    return new Promise((resolve, reject) => {
+      Note.findByPk(noteId)
+        .then(async (note) => {
+          note.deleteAt = null;
+
+          await note.save();
 
           resolve(note);
         })

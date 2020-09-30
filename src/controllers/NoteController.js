@@ -106,6 +106,24 @@ const NoteController = {
     },
   },
 
+  restore: {
+    validations: NoteValidations.restore,
+    handler: async (req, res) => {
+      const { noteId } = req.body;
+
+      try {
+        const note = await NoteRepository.restoreNote(noteId);
+
+        return res.status(200).json({
+          data: note,
+          msg: 'Nota restaurada.',
+        });
+      } catch (error) {
+        return handleDefaultError(error, res);
+      }
+    },
+  },
+
   deletePermanently: {
     validations: NoteValidations.delete,
     handler: async (req, res) => {
