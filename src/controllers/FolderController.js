@@ -13,7 +13,7 @@ const NoteController = {
           name,
           userId,
         });
-        console.log(folder);
+
         return res.status(201).json({
           data: folder,
           msg: 'Pasta criada!',

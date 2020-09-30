@@ -91,14 +91,18 @@ const NoteController = {
   delete: {
     validations: NoteValidations.delete,
     handler: async (req, res) => {
-      const { noteId } = req.body;
+      const { noteId } = req.query;
 
-      const note = await NoteRepository.delete(noteId);
+      try {
+        const note = await NoteRepository.delete(noteId);
 
-      return res.status(200).json({
-        data: note,
-        msg: 'Nota deletada.',
-      });
+        return res.status(200).json({
+          data: note,
+          msg: 'Nota deletada.',
+        });
+      } catch (error) {
+        return handleDefaultError(error, res);
+      }
     },
   },
 
