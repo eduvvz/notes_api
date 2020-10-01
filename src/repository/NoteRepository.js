@@ -31,7 +31,7 @@ class NoteRepository {
     return new Promise((resolve, reject) => {
       Note.findAndCountAll({
         where: { userId },
-        order: [['updatedAt', 'DESC']],
+        order: [['createdAt', 'DESC']],
       })
         .then((notes) => {
           resolve(notes);
@@ -46,7 +46,7 @@ class NoteRepository {
     return new Promise((resolve, reject) => {
       Note.findAndCountAll({
         where: { userId, folderId: null, deleteAt: null },
-        order: [['updatedAt', 'DESC']],
+        order: [['createdAt', 'DESC']],
       })
         .then((notes) => {
           resolve(notes);
@@ -73,7 +73,10 @@ class NoteRepository {
 
   async getNotesInFolder(folderId) {
     return new Promise((resolve, reject) => {
-      Note.findAll({ where: { folderId, deleteAt: null } })
+      Note.findAll({
+        where: { folderId, deleteAt: null },
+        order: [['createdAt', 'DESC']],
+      })
         .then((notes) => {
           resolve(notes);
         })
@@ -124,6 +127,7 @@ class NoteRepository {
             [Op.ne]: null,
           },
         },
+        order: [['createdAt', 'DESC']],
       })
         .then((notes) => {
           resolve(notes);
