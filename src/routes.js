@@ -3,6 +3,7 @@ import NoteController from './controllers/NoteController';
 import UserController from './controllers/UserController';
 import FolderController from './controllers/FolderController';
 import { handleValidationErrors } from './utils/handleErrors';
+import verifyJWT from './utils/verifyJWT';
 const routes = Router();
 
 routes.get('/', (_, res) => {
@@ -38,6 +39,7 @@ const prefixNote = '/notes';
 
 routes.post(
   prefixNote,
+  verifyJWT,
   NoteController.store.validations,
   handleValidationErrors,
   NoteController.store.handler
@@ -45,6 +47,7 @@ routes.post(
 
 routes.get(
   `${prefixNote}/byUser`,
+  verifyJWT,
   NoteController.getByUser.validations,
   handleValidationErrors,
   NoteController.getByUser.handler
@@ -52,6 +55,7 @@ routes.get(
 
 routes.get(
   `${prefixNote}/getByUserAndWithoutFolder`,
+  verifyJWT,
   NoteController.getByUserAndWithoutFolder.validations,
   handleValidationErrors,
   NoteController.getByUserAndWithoutFolder.handler
@@ -59,6 +63,7 @@ routes.get(
 
 routes.put(
   `${prefixNote}/putInFolder`,
+  verifyJWT,
   NoteController.putNoteInFolder.validations,
   handleValidationErrors,
   NoteController.putNoteInFolder.handler
@@ -66,6 +71,7 @@ routes.put(
 
 routes.get(
   `${prefixNote}/getInFolder`,
+  verifyJWT,
   NoteController.getNotesInFolder.validations,
   handleValidationErrors,
   NoteController.getNotesInFolder.handler
@@ -73,6 +79,7 @@ routes.get(
 
 routes.delete(
   prefixNote,
+  verifyJWT,
   NoteController.delete.validations,
   handleValidationErrors,
   NoteController.delete.handler
@@ -80,6 +87,7 @@ routes.delete(
 
 routes.put(
   `${prefixNote}/restore`,
+  verifyJWT,
   NoteController.restore.validations,
   handleValidationErrors,
   NoteController.restore.handler
@@ -87,6 +95,7 @@ routes.put(
 
 routes.delete(
   `${prefixNote}/permanently`,
+  verifyJWT,
   NoteController.deletePermanently.validations,
   handleValidationErrors,
   NoteController.deletePermanently.handler
@@ -94,6 +103,7 @@ routes.delete(
 
 routes.get(
   `${prefixNote}/getDeleted`,
+  verifyJWT,
   NoteController.getDeleted.validations,
   handleValidationErrors,
   NoteController.getDeleted.handler
@@ -104,6 +114,7 @@ const prefixFolder = '/folders';
 
 routes.post(
   prefixFolder,
+  verifyJWT,
   FolderController.store.validations,
   handleValidationErrors,
   FolderController.store.handler
@@ -111,6 +122,7 @@ routes.post(
 
 routes.get(
   `${prefixFolder}/byUser`,
+  verifyJWT,
   FolderController.getByUser.validations,
   handleValidationErrors,
   FolderController.getByUser.handler
